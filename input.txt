@@ -1,0 +1,8 @@
+# Esto es un codigo de Python
+
+def funcion():
+    a = 2
+    b = 4
+    c = a + b
+    ^ * + - / % && || !
+    print(c)

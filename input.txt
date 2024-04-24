@@ -1,8 +1,6 @@
 # Esto es un codigo de Python
 
-def funcion():
-    a = 2
-    b = 4
+def funcion(a, b):
     c = a + b
-    ^ * + - / % && || !
+    + - * ^ / % && || !
     print(c)

@@ -5,6 +5,10 @@ def lineRead(line, contenido_html):
         contenido_html = comentarioEncontrado(line, contenido_html)
     elif re.search(r'\bdef\b', line):
         contenido_html = funcionEncontrada(line, contenido_html)
+    elif re.search(r'\bif\b', line):
+        contenido_html = ifEncontrado(line, contenido_html)
+    elif re.search(r'\belse\b', line):
+        contenido_html = elseEncontrado(line, contenido_html)
     elif re.search(r'\+|\-|\*|\^|\/|\%|\&\&|\|{2}|\!', line):
         contenido_html = operadorEncontrado(line, contenido_html)
     else:
@@ -18,8 +22,22 @@ def comentarioEncontrado(line, contenido_html):
 
 def funcionEncontrada(line, contenido_html):
     prueba = re.findall(r'\((.*?)\)', line)
+    if prueba == [""]:
+        resultado = re.sub(r'\bdef\b', '<span class="function">def</span>', line)
+        contenido_html += f"<p>{resultado}</p>"
+        return contenido_html
     resultado = re.sub(rf'{prueba[0]}', f'<span class="param">{prueba[0]}</span>', line)
     resultado = re.sub(r'\bdef\b', '<span class="function">def</span>', resultado)
+    contenido_html += f"<p>{resultado}</p>"
+    return contenido_html
+
+def ifEncontrado(line, contenido_html):
+    resultado = re.sub(r'\bif\b', '<span class="ifelse">if</span>', line)
+    contenido_html += f"<p>{resultado}</p>"
+    return contenido_html
+
+def elseEncontrado(line, contenido_html):
+    resultado = re.sub(r'\belse\b', '<span class="ifelse">else</span>', line)
     contenido_html += f"<p>{resultado}</p>"
     return contenido_html
 
@@ -68,6 +86,9 @@ contenido_html = """
         }
         .function {
             color: #ff6e00;
+        }
+        .ifelse {
+            color: #ff5bbd;
         }
         .operator {
             color: #9600aa;

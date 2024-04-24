@@ -4,3 +4,8 @@ def funcion(a, b):
     c = a + b
     + - * ^ / % && || !
     print(c)
+
+if c == b:
+    print("SI")
+else:
+    print("NO")

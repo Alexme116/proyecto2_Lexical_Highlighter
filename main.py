@@ -1,8 +1,12 @@
 import re
 
 def lineRead(line, contenido_html):
+    if line == "\n":
+        contenido_html += "<br>"
+        return contenido_html
+    tab = line[0]
     if re.search(r'\#', line):
-        contenido_html = comentarioEncontrado(line, contenido_html)
+        contenido_html = comentarioEncontrado(line, contenido_html, tab)
     elif re.search(r'\bdef\b', line):
         contenido_html = funcionEncontrada(line, contenido_html)
     elif re.search(r'\bif\b', line):
@@ -10,14 +14,20 @@ def lineRead(line, contenido_html):
     elif re.search(r'\belse\b', line):
         contenido_html = elseEncontrado(line, contenido_html)
     elif re.search(r'\+|\-|\*|\^|\/|\%|\&\&|\|{2}|\!', line):
-        contenido_html = operadorEncontrado(line, contenido_html)
+        contenido_html = operadorEncontrado(line, contenido_html, tab)
     else:
-        contenido_html += f"<p>{line}</p>"
+        if tab == " ":
+            contenido_html += f"<p>&emsp;{line}</p>"
+        else:
+            contenido_html += f"<p>{line}</p>"
         return contenido_html
     return contenido_html
 
-def comentarioEncontrado(line, contenido_html):
-    contenido_html += f'<p><span class="comment">{line}</span></p>'
+def comentarioEncontrado(line, contenido_html, tab):
+    if tab == " ":
+        contenido_html += f'<p>&emsp;<span class="comment">{line}</span></p>'
+    else:
+        contenido_html += f'<p><span class="comment">{line}</span></p>'
     return contenido_html
 
 def funcionEncontrada(line, contenido_html):
@@ -41,7 +51,7 @@ def elseEncontrado(line, contenido_html):
     contenido_html += f"<p>{resultado}</p>"
     return contenido_html
 
-def operadorEncontrado(line, contenido_html):
+def operadorEncontrado(line, contenido_html, tab):
     resultado = line
     if re.search(r'\/', line):
         resultado = re.sub(r'\/', f'<span class="operator">/</span>', resultado)
@@ -61,7 +71,10 @@ def operadorEncontrado(line, contenido_html):
         resultado = re.sub(r'\|{2}', f'<span class="operator">||</span>', resultado)
     if re.search(r'\!', line):
         resultado = re.sub(r'\!', f'<span class="operator">!</span>', resultado)
-    contenido_html += f"<p>{resultado}</p>"
+    if tab == " ":
+        contenido_html += f"<p>&emsp;{resultado}</p>"
+    else:
+        contenido_html += f"<p>{resultado}</p>"
     return contenido_html
 
 contenido_html = """

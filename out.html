@@ -12,11 +12,17 @@
             background-color: #f0f0f0;
             color: #333;
         }
+        .param {
+            color: #1129ff;
+        }
         .comment {
             color: #008206;
         }
         .function {
             color: #ff6e00;
+        }
+        .ifelse {
+            color: #ff5bbd;
         }
         .operator {
             color: #9600aa;
@@ -25,12 +31,13 @@
 </head>
 <body>
 <p><span class="comment"># Esto es un codigo de Python
-</span></p><p>
-</p><p><span class="function">def</span> funcion():
-</p><p>    a = 2
-</p><p>    b = 4
-</p><p>    c = a <span class="operator">+</span> b
-</p><p>    ^ * <span class="operator">+</span> - / % && || !
-</p><p>    print(c)</p>
+</span></p><br><p><span class="function">def</span> funcion(<span class="param">a, b</span>):
+</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    c = a <span class="operator">+</span> b
+</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    <span class="operator">+</span> <span class="operator">-</span> <span class="operator">*</span> <span class="operator">^</span> <span class="operator">/</span> <span class="operator">%</span> <span class="operator">&&</span> <span class="operator">||</span> <span class="operator">!</span>
+</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    print(c)
+</p><br><p><span class="ifelse">if</span> c == b:
+</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    print("SI")
+</p><p><span class="ifelse">else</span>:
+</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    print("NO")</p>
 </body>
 </html>

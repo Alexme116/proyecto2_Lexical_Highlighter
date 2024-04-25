@@ -1,11 +1,12 @@
 import re
 
+# Función que lee una línea y la procesa
 def lineRead(line, contenido_html):
     if re.search(r'\#', line):
         contenido_html = comentarioEncontrado(line, contenido_html)
     elif re.search(r'\bdef\b', line):
         contenido_html = funcionEncontrada(line, contenido_html)
-    elif re.search(r'\+|\-', line):
+    elif re.search(r'\+|\-|\*', line):
         print("ENCONTRADO")
         contenido_html = operadorEncontrado(line, contenido_html)
     else:
@@ -13,6 +14,7 @@ def lineRead(line, contenido_html):
         return contenido_html
     return contenido_html
 
+# Función que procesa un comentario
 def comentarioEncontrado(line, contenido_html):
     contenido_html += f'<p><span class="comment">{line}</span></p>'
     return contenido_html
@@ -27,6 +29,7 @@ def operadorEncontrado(line, contenido_html):
     resultado = re.sub(r'\+', f'<span class="operator">{operador.group(0)}</span>', line)
     contenido_html += f"<p>{resultado}</p>"
     return contenido_html
+
 
 contenido_html = """
 <!DOCTYPE html>

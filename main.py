@@ -13,6 +13,8 @@ def lineRead(line, contenido_html):
     elif re.search(r'\+|\-', line):
         print("ENCONTRADO")
         contenido_html = operadorEncontrado(line, contenido_html)
+    elif re.search(r'\bfor\bin\brange\b'):
+        contenido_html = forEncontrado(line,contenido_html)
     else:
         if spaces > 0:
             contenido_html += f"<p>{addSpaces(line, spaces)}</p>"
@@ -20,6 +22,17 @@ def lineRead(line, contenido_html):
             contenido_html += f"<p>{line, spaces}</p>"
         return contenido_html
     return contenido_html
+
+def forEncontrado(line,contenido_html):
+
+    #condicion para palabra reservada de for
+    
+    #condicion para palabra reservada de in
+
+    #condicion para palabra reservada de range
+
+    return contenido_html;
+    
 
 def comentarioEncontrado(line, contenido_html):
     contenido_html += f'<p><span class="comment">{line}</span></p>'
@@ -102,6 +115,10 @@ contenido_html = """
         .operator {
             color: #9600aa;
         }
+        .for {
+            color: #ff5bbd;
+        }
+
     </style>
 </head>
 <body>

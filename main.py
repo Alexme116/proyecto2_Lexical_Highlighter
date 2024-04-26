@@ -119,7 +119,9 @@ def funcionEncontrada(line):
 def ifEncontrado(line, spaces):
     if re.search(r'\+|\-|\*|\^|\/|\%|\&\&|\|{2}|\!', line):
         newLine = operadorEncontrado(line, spaces=0)
-    resultado = re.sub(r'\bif\b', '<span class="ifelse">if</span>', newLine)
+        resultado = re.sub(r'\bif\b', '<span class="ifelse">if</span>', newLine)
+    else:
+        resultado = re.sub(r'\bif\b', '<span class="ifelse">if</span>', line)
     if spaces > 0:
         resultado = addSpaces(resultado, spaces)
     return resultado

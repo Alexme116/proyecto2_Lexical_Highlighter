@@ -1,29 +1,34 @@
-# Definición de una función que suma dos números
-def suma(a, b):
-    # Comentario de una sola línea: Esta función suma dos números
-    resultado = a + b
-    return resultado
+# Suma
+suma = 2 + 3
+print(suma)
 
-# Definición de una función que verifica si un número es par o impar
-def es_par(numero): # Comentario despues de otro highlight
-    if numero % 2 == 0:
-        # Comentario de una sola línea: El número es par
-        return True
-    else:
-        # Comentario de una sola línea: El número es impar
-        return False
+# Resta
+resta = 5 - 2
+print(resta)
 
-# Ciclo for que imprime los números del 1 al 5
-for i in range(1, 6):
+# Multiplicación
+multiplicacion = 3 * 4
+print(multiplicacion)
+
+# División
+division = 10 / 2
+print(division)
+
+# Condicionales
+numero = 10
+
+if numero > 0:
+    print("El número es positivo")
+else:
+    print("El número es negativo")
+
+# Bucles
+for i in range(5):
     print(i)
 
-# Ciclo while que imprime los números del 1 al 5
-numero = 1
-while numero <= 5:
-    print(numero)
-    numero += 1
+# Funciones
+def suma(a, b):
+    return a + b
 
-# Operadores aritméticos y operadores lógicos en uso
-a = 5
-b = 3
-c = 7
+resultado = suma(2, 3)
+print(resultado)

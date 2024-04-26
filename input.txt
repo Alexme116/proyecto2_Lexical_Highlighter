@@ -5,7 +5,7 @@ def suma(a, b):
     return resultado
 
 # Definición de una función que verifica si un número es par o impar
-def es_par(numero):
+def es_par(numero): # Comentario despues de otro highlight
     if numero % 2 == 0:
         # Comentario de una sola línea: El número es par
         return True

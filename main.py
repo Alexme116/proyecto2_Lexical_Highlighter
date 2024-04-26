@@ -9,29 +9,30 @@ def lineRead(line, contenido_html):
     
     spaces = countSpaces(line)
     if re.search(r'\#', line):
-        contenido_html = comentarioEncontrado(line, contenido_html, spaces)
+        newLine = comentarioEncontrado(line, spaces)
     elif re.search(r'\bdef\b', line):
-        contenido_html = funcionEncontrada(line, contenido_html)
+        newLine = funcionEncontrada(line)
     elif re.search(r'\bif\b', line):
-        contenido_html = ifEncontrado(line, contenido_html)
+        newLine = ifEncontrado(line, spaces)
     elif re.search(r'\belse\b', line):
-        contenido_html = elseEncontrado(line, contenido_html)
+        newLine = elseEncontrado(line, spaces)
     elif re.search(r'\+|\-|\*|\^|\/|\%|\&\&|\|{2}|\!', line):
-        contenido_html = operadorEncontrado(line, contenido_html, spaces)
+        newLine = operadorEncontrado(line, spaces)
     elif re.search(r'\bfor|\bin|\brange\b',line):
-        contenido_html = forEncontrado(line,contenido_html)
+        newLine = forEncontrado(line, spaces)
     elif re.search(r'\bwhile|\bbreak\b|\<|\>',line):
-        contenido_html = whileEncontrado(line,contenido_html)
+        newLine = whileEncontrado(line, spaces)
     else:
         if spaces > 0:
             contenido_html += f"<p>{addSpaces(line, spaces)}</p>"
         else:
             contenido_html += f"<p>{line}</p>"
         return contenido_html
+    contenido_html += f"<p>{newLine}</p>"
     return contenido_html
 
 # Funcion del FOR
-def forEncontrado(line,contenido_html):
+def forEncontrado(line, spaces):
 
     resultado = line
     #condicion para palabra reservada de for
@@ -43,11 +44,12 @@ def forEncontrado(line,contenido_html):
     #condicion para palabra reservada de range
     if re.search(r'\brange\b',resultado):
         resultado = re.sub(r'\brange\b','<span class="range">range</span>',resultado)
-    #concantenamos todo 
-    contenido_html += f'<p>{resultado}</p>'
-    return contenido_html
+    #concantenamos todo
+    if spaces > 0:
+        resultado = addSpaces(resultado, spaces)
+    return resultado
 
-def whileEncontrado(line,contenido_html):
+def whileEncontrado(line, spaces):
     
     resultado = line
     if re.search(r'\>',resultado):
@@ -61,9 +63,9 @@ def whileEncontrado(line,contenido_html):
     if re.search(r'\bbreak\b',resultado):
         resultado = re.sub(r'\bbreak\b','<span class="while">break</span>',resultado)
 
-    contenido_html += f'<p>{resultado}</p>'
-
-    return contenido_html
+    if spaces > 0:
+        resultado = addSpaces(resultado, spaces)
+    return resultado
 
 def countSpaces(line):
     count = 0
@@ -80,40 +82,56 @@ def addSpaces(line, spaces):
     result += line
     return result
 
-def comentarioEncontrado(line, contenido_html, spaces):
-    resultado_busqueda = re.search(r'#[^\n]*', line)
-    resultado = re.sub(r'#[^\n]*', f'<span class="comment">{resultado_busqueda.group(0)}</span>', line)
-    if spaces > 0:
-        contenido_html += f"<p>{addSpaces(resultado, spaces)}</p>"
+def comentarioEncontrado(line, spaces):
+    if re.match(r'^\s*#', line):
+        resultado_busqueda = re.search(r'#[^\n]*', line)
+        resultado = re.sub(r'#[^\n]*', f'<span class="comment">{resultado_busqueda.group(0)}</span>', line)
+        if spaces > 0:
+            resultado = addSpaces(resultado, spaces)
+        return resultado
     else:
-        contenido_html += f'<p>{resultado}</p>'
-    return contenido_html
+        if re.search(r'\bdef\b', line):
+            newLine = funcionEncontrada(line)
+        elif re.search(r'\bif\b', line):
+            newLine = ifEncontrado(line, spaces)
+        elif re.search(r'\belse\b', line):
+            newLine = elseEncontrado(line, spaces)
+        elif re.search(r'\+|\-|\*|\^|\/|\%|\&\&|\|{2}|\!', line):
+            newLine = operadorEncontrado(line, spaces)
+        elif re.search(r'\bfor|\bin|\brange\b', line):
+            newLine = forEncontrado(line, spaces)
+        elif re.search(r'\bwhile|\bbreak\b|\<|\>', line):
+            newLine = whileEncontrado(line, spaces)
+        resultado_busqueda = re.search(r'#[^<]*', newLine)
+        resultado = re.sub(r'#[^\n]*', f'<span class="comment">{resultado_busqueda.group(0)}</span>', newLine)
+        return resultado
 
-def funcionEncontrada(line, contenido_html):
+def funcionEncontrada(line):
     prueba = re.findall(r'\((.*?)\)', line)
     if prueba == [""]:
         resultado = re.sub(r'\bdef\b', '<span class="function">def</span>', line)
-        contenido_html += f"<p>{resultado}</p>"
-        return contenido_html
+        return resultado
     
     resultado = re.sub(rf'{prueba[0]}', f'<span class="param">{prueba[0]}</span>', line)
     resultado = re.sub(r'\bdef\b', '<span class="function">def</span>', resultado)
-    contenido_html += f"<p>{resultado}</p>"
-    return contenido_html 
+    return resultado
 
-def ifEncontrado(line, contenido_html):
-    resultado = line
-    resultado = re.sub(r'\bif\b', '<span class="ifelse">if</span>', line)
-    contenido_html += f"<p>{resultado}</p>"
-    return contenido_html
+def ifEncontrado(line, spaces):
+    if re.search(r'\+|\-|\*|\^|\/|\%|\&\&|\|{2}|\!', line):
+        newLine = operadorEncontrado(line, spaces=0)
+    resultado = re.sub(r'\bif\b', '<span class="ifelse">if</span>', newLine)
+    if spaces > 0:
+        resultado = addSpaces(resultado, spaces)
+    return resultado
 
-def elseEncontrado(line, contenido_html):
+def elseEncontrado(line, spaces):
     resultado = line
     resultado = re.sub(r'\belse\b', '<span class="ifelse">else</span>', line)
-    contenido_html += f"<p>{resultado}</p>"
-    return contenido_html
+    if spaces > 0:
+        resultado = addSpaces(resultado, spaces)
+    return resultado
 
-def operadorEncontrado(line, contenido_html, spaces):
+def operadorEncontrado(line, spaces):
     resultado = line
     if re.search(r'\/', line):
         resultado = re.sub(r'\/', f'<span class="operator">/</span>', resultado)
@@ -134,10 +152,8 @@ def operadorEncontrado(line, contenido_html, spaces):
     if re.search(r'\!', line):
         resultado = re.sub(r'\!', f'<span class="operator">!</span>', resultado)
     if spaces > 0:
-        contenido_html += f"<p>{addSpaces(resultado, spaces)}</p>"
-    else:
-        contenido_html += f"<p>{resultado}</p>"
-    return contenido_html
+        resultado = addSpaces(resultado, spaces)
+    return resultado
 
 
 contenido_html = """

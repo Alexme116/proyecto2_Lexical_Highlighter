@@ -9,3 +9,5 @@ if c == b:
     print("SI")
 else:
     print("NO")
+
+for lines in range(): 

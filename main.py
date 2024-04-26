@@ -11,9 +11,9 @@ def lineRead(line, contenido_html):
     elif re.search(r'\bdef\b', line):
         contenido_html = funcionEncontrada(line, contenido_html)
     elif re.search(r'\+|\-', line):
-        print("ENCONTRADO")
-        contenido_html = operadorEncontrado(line, contenido_html)
-    elif re.search(r'\bfor\bin\brange\b'):
+        contenido_html = operadorEncontrado(line, contenido_html,spaces)
+    elif re.search(r'\bfor|\bin|\brange\b',line):
+        print('Encontrado')
         contenido_html = forEncontrado(line,contenido_html)
     else:
         if spaces > 0:
@@ -25,17 +25,40 @@ def lineRead(line, contenido_html):
 
 def forEncontrado(line,contenido_html):
 
+    resultado = line
     #condicion para palabra reservada de for
-    
+    if re.search(r'\bfor\b',resultado):
+        resultado = re.sub(r'\bfor\b','<span class="for">for</span>',resultado)
     #condicion para palabra reservada de in
-
+    if re.search(r'\bin\b',resultado):
+        resultado = re.sub(r'\bin\b','<span class="for">in</span>',resultado)
     #condicion para palabra reservada de range
+    if re.search(r'\brange\b',resultado):
+        resultado = re.sub(r'\brange\b','<span class="range">range</span>',resultado)
+    #concantenamos todo 
+    contenido_html += f'<p>{resultado}</p>'
+    return contenido_html
 
-    return contenido_html;
-    
+def countSpaces(line):
+    count = 0
+    index = 0
+    while line[index] == " ":
+        count+=1
+        index+=1
+    return count
 
-def comentarioEncontrado(line, contenido_html):
-    contenido_html += f'<p><span class="comment">{line}</span></p>'
+def addSpaces(line, spaces):
+    result = ""
+    for i in range(0, int(spaces)):
+        result += "&nbsp;"
+    result += line
+    return result
+
+def comentarioEncontrado(line, contenido_html, spaces):
+    if spaces > 0:
+        contenido_html += f"<p>{addSpaces(line, spaces)}</p>"
+    else:
+        contenido_html += f'<p><span class="comment">{line}</span></p>'
     return contenido_html
 
 def funcionEncontrada(line, contenido_html):
@@ -44,6 +67,7 @@ def funcionEncontrada(line, contenido_html):
         resultado = re.sub(r'\bdef\b', '<span class="function">def</span>', line)
         contenido_html += f"<p>{resultado}</p>"
         return contenido_html
+    
     resultado = re.sub(rf'{prueba[0]}', f'<span class="param">{prueba[0]}</span>', line)
     resultado = re.sub(r'\bdef\b', '<span class="function">def</span>', resultado)
     contenido_html += f"<p>{resultado}</p>"
@@ -117,6 +141,9 @@ contenido_html = """
         }
         .for {
             color: #ff5bbd;
+        }
+        .range {
+            color: #ff6e00;
         }
 
     </style>

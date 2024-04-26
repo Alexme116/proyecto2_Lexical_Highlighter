@@ -1,13 +1,29 @@
-# Esto es un codigo de Python
+# Definición de una función que suma dos números
+def suma(a, b):
+    # Comentario de una sola línea: Esta función suma dos números
+    resultado = a + b
+    return resultado
 
-def funcion(a, b):
-    c = a + b
-    + - * ^ / % && || !
-    print(c)
+# Definición de una función que verifica si un número es par o impar
+def es_par(numero):
+    if numero % 2 == 0:
+        # Comentario de una sola línea: El número es par
+        return True
+    else:
+        # Comentario de una sola línea: El número es impar
+        return False
 
-if c == b:
-    print("SI")
-else:
-    print("NO")
+# Ciclo for que imprime los números del 1 al 5
+for i in range(1, 6):
+    print(i)
 
-for lines in range(): 
+# Ciclo while que imprime los números del 1 al 5
+numero = 1
+while numero <= 5:
+    print(numero)
+    numero += 1
+
+# Operadores aritméticos y operadores lógicos en uso
+a = 5
+b = 3
+c = 7

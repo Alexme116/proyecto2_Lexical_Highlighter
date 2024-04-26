@@ -1,28 +1,37 @@
 import re
 
-# Función que lee una línea y la procesa
+# Función que lee una línea y la procesa con las expresiones regulares 
 def lineRead(line, contenido_html):
+
     if line == "\n":
         contenido_html += "<br>"
         return contenido_html
+    
     spaces = countSpaces(line)
     if re.search(r'\#', line):
         contenido_html = comentarioEncontrado(line, contenido_html, spaces)
     elif re.search(r'\bdef\b', line):
         contenido_html = funcionEncontrada(line, contenido_html)
-    elif re.search(r'\+|\-', line):
-        contenido_html = operadorEncontrado(line, contenido_html,spaces)
+    elif re.search(r'\bif\b', line):
+        contenido_html = ifEncontrado(line, contenido_html)
+    elif re.search(r'\belse\b', line):
+        contenido_html = elseEncontrado(line, contenido_html)
+    elif re.search(r'\+|\-|\*|\^|\/|\%|\&\&|\|{2}|\!', line):
+
+        contenido_html = operadorEncontrado(line, contenido_html, spaces)
     elif re.search(r'\bfor|\bin|\brange\b',line):
-        print('Encontrado')
         contenido_html = forEncontrado(line,contenido_html)
+    elif re.search(r'\bwhile|\bbreak\b|\<|\>',line):
+        contenido_html = whileEncontrado(line,contenido_html)
     else:
         if spaces > 0:
             contenido_html += f"<p>{addSpaces(line, spaces)}</p>"
         else:
-            contenido_html += f"<p>{line, spaces}</p>"
+            contenido_html += f"<p>{line}</p>"
         return contenido_html
     return contenido_html
 
+# Funcion del FOR
 def forEncontrado(line,contenido_html):
 
     resultado = line
@@ -37,6 +46,24 @@ def forEncontrado(line,contenido_html):
         resultado = re.sub(r'\brange\b','<span class="range">range</span>',resultado)
     #concantenamos todo 
     contenido_html += f'<p>{resultado}</p>'
+    return contenido_html
+
+def whileEncontrado(line,contenido_html):
+    
+    resultado = line
+    if re.search(r'\>',resultado):
+        resultado = re.sub(r'\>','<span>&gt</span>',resultado)
+    if re.search(r'\<',resultado):
+        resultado = re.sub(r'\<','<span >&lt</span>',resultado)
+
+    if re.search(r'\bwhile\b',resultado):
+        resultado = re.sub(r'\bwhile\b','<span class="while">while</span>',resultado)
+
+    if re.search(r'\bbreak\b',resultado):
+        resultado = re.sub(r'\bbreak\b','<span class="while">break</span>',resultado)
+
+    contenido_html += f'<p>{resultado}</p>'
+
     return contenido_html
 
 def countSpaces(line):
@@ -71,14 +98,16 @@ def funcionEncontrada(line, contenido_html):
     resultado = re.sub(rf'{prueba[0]}', f'<span class="param">{prueba[0]}</span>', line)
     resultado = re.sub(r'\bdef\b', '<span class="function">def</span>', resultado)
     contenido_html += f"<p>{resultado}</p>"
-    return contenido_html
+    return contenido_html 
 
 def ifEncontrado(line, contenido_html):
+    resultado = line
     resultado = re.sub(r'\bif\b', '<span class="ifelse">if</span>', line)
     contenido_html += f"<p>{resultado}</p>"
     return contenido_html
 
 def elseEncontrado(line, contenido_html):
+    resultado = line
     resultado = re.sub(r'\belse\b', '<span class="ifelse">else</span>', line)
     contenido_html += f"<p>{resultado}</p>"
     return contenido_html
@@ -145,7 +174,9 @@ contenido_html = """
         .range {
             color: #ff6e00;
         }
-
+        .while {
+            color: #1129ff;
+        }
     </style>
 </head>
 <body>

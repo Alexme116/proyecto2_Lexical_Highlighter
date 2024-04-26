@@ -33,17 +33,37 @@
         .range {
             color: #ff6e00;
         }
-
+        .while {
+            color: #1129ff;
+        }
     </style>
 </head>
 <body>
-<p><span class="comment"># Esto es un codigo de Python
-</span></p><br><p><span class="function">def</span> funcion(<span class="param">a, b</span>):
-</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    c = a <span class="operator">+</span> b
-</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    <span class="operator">+</span> <span class="operator">-</span> <span class="operator">*</span> <span class="operator">^</span> <span class="operator">/</span> <span class="operator">%</span> <span class="operator">&&</span> <span class="operator">||</span> <span class="operator">!</span>
-</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    print(c)
-</p><br><p>('if c == b:\n', 0)</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    print("SI")
-</p><p>('else:\n', 0)</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    print("NO")
-</p><br><p><span class="for">for</span> lines <span class="for">in</span> <span class="range">range</span>(): </p>
+<p><span class="comment"># Definición de una función que suma dos números
+</span></p><p><span class="function">def</span> suma(<span class="param">a, b</span>):
+</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    # Comentario de una sola línea: Esta función suma dos números
+</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    resultado = a <span class="operator">+</span> b
+</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    return resultado
+</p><br><p><span class="comment"># Definición de una función que verifica si un número es par o impar
+</span></p><p><span class="function">def</span> es_par(<span class="param">numero</span>):
+</p><p>    <span class="ifelse">if</span> numero % 2 == 0:
+</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        # Comentario de una sola línea: El número es par
+</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        return True
+</p><p>    <span class="ifelse">else</span>:
+</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        # Comentario de una sola línea: El número es impar
+</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        return False
+</p><br><p><span class="comment"># Ciclo for que imprime los números del 1 al 5
+</span></p><p><span class="for">for</span> i <span class="for">in</span> <span class="range">range</span>(1, 6):
+</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    print(i)
+</p><br><p><span class="comment"># Ciclo while que imprime los números del 1 al 5
+</span></p><p>numero = 1
+</p><p><span class="while">while</span> numero <span >&lt</span>= 5:
+</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    print(numero)
+</p><p>&nbsp;&nbsp;&nbsp;&nbsp;    numero <span class="operator">+</span>= 1
+</p><br><p><span class="comment"># Operadores aritméticos y operadores lógicos en uso
+</span></p><p>a = 5
+</p><p>b = 3
+</p><p>c = 7
+</p>
 </body>
 </html>

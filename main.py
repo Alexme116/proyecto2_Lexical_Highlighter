@@ -17,7 +17,6 @@ def lineRead(line, contenido_html):
     elif re.search(r'\belse\b', line):
         contenido_html = elseEncontrado(line, contenido_html)
     elif re.search(r'\+|\-|\*|\^|\/|\%|\&\&|\|{2}|\!', line):
-
         contenido_html = operadorEncontrado(line, contenido_html, spaces)
     elif re.search(r'\bfor|\bin|\brange\b',line):
         contenido_html = forEncontrado(line,contenido_html)
@@ -82,10 +81,12 @@ def addSpaces(line, spaces):
     return result
 
 def comentarioEncontrado(line, contenido_html, spaces):
+    resultado_busqueda = re.search(r'#[^\n]*', line)
+    resultado = re.sub(r'#[^\n]*', f'<span class="comment">{resultado_busqueda.group(0)}</span>', line)
     if spaces > 0:
-        contenido_html += f"<p>{addSpaces(line, spaces)}</p>"
+        contenido_html += f"<p>{addSpaces(resultado, spaces)}</p>"
     else:
-        contenido_html += f'<p><span class="comment">{line}</span></p>'
+        contenido_html += f'<p>{resultado}</p>'
     return contenido_html
 
 def funcionEncontrada(line, contenido_html):
